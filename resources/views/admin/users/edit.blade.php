@@ -88,15 +88,16 @@
                                                             <form action="#" class="dropzone" id="mydropzone">
                                                                 <div class="fallback">
                                                                     <input type="file" class="form-control"
-                                                                           accept="image/*" name="image" id="image-input"
-                                                                           id="inputGroupFile01">
+                                                                        accept="image/*" name="image" id="image-input"
+                                                                        id="inputGroupFile01">
                                                                 </div>
                                                             </form>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 form-group">
-                                                        <img src="{{ asset('backend/assets/img/avatar/avatar-2.png') }}" class="img-thumbnail" id="show-image" width="200px" alt="">
-                                                        <input type="hidden" id="old-image" value="...">
+                                                        <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('backend/assets/img/avatar/avatar-1.png') }}"
+                                                            class="img-thumbnail" id="show-image" width="200px"
+                                                            alt="">
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -291,11 +292,6 @@
                     }
                 }
             });
-
-            function restoreOldImage() {
-                var oldImage = $('#old-image').val();
-                $('#show-image').attr('src', oldImage);
-            }
         });
     </script>
     <!-- JS Libraies -->
@@ -311,4 +307,6 @@
     <script src="{{ asset('backend/assets/modules/jquery-selectric/jquery.selectric.min.js') }}"></script>
 
     <script src="{{ asset('backend/assets/js/page/forms-advanced-forms.js') }}"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 @endpush

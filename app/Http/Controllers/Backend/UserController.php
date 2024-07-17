@@ -35,7 +35,6 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        // $users = $this->userService->paginate();
         $users = $this->user->all();
         return view('admin.users.index', compact('users'));
     }

@@ -1,18 +1,18 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Stisla</a>
+            <a href="{{ route('dashboard.index')}}">Stisla</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">St</a>
+            <a href="{{ route('dashboard.index')}}">St</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class="dropdown active">
+            <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="index-0.html">General Dashboard</a></li>
-                    <li class=active><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
+                    <li class><a class="nav-link" href="{{ route('dashboard.index')}}">Ecommerce Dashboard</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -21,7 +21,6 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('user.index') }}">Danh sách người dùng</a></li>
                     <li><a class="nav-link" href="{{ route('user.indexSoftDelete') }}">Đã xóa gần đây</a></li>
-                    <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
                 </ul>
             </li>
             <li class="menu-header">Starter</li>

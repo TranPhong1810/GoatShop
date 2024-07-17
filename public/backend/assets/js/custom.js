@@ -6,17 +6,23 @@
  */
 
 "use strict";
-/* sider detail user */
-function showDetail(user) {
-    document.getElementById('detailName').innerText = user.name;
-    document.getElementById('detailPhone').innerText = user.phone;
-    document.getElementById('detailEmail').innerText = user.email;
-    document.getElementById('detailAddress').innerText = user.address;
-    document.getElementById('detailStatus').innerText = user.status == 1 ? 'Hoạt động' : 'Không hoạt động';
+document.addEventListener("DOMContentLoaded", function () {
+    var currentUrl = window.location.href;
+    var menuItems = document.querySelectorAll('.sidebar-menu a');
 
-    document.getElementById('userDetailSidebar').style.display = 'block';
-}
-
-function closeSidebar() {
-    document.getElementById('userDetailSidebar').style.display = 'none';
-}
+    menuItems.forEach(function (item) {
+        if (item.href === currentUrl) {
+            item.classList.add('active');
+            // Thêm class active cho thẻ li cha nếu có
+            var parentLi = item.closest('li');
+            if (parentLi) {
+                parentLi.classList.add('active');
+            }
+            // Thêm class active cho dropdown nếu có
+            var parentDropdown = item.closest('.dropdown');
+            if (parentDropdown) {
+                parentDropdown.classList.add('active');
+            }
+        }
+    });
+});
