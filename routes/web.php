@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VerifyEmailController;
 use App\Http\Middleware\AuthenticateMiddleware;
@@ -49,6 +50,22 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('user.delete')->middleware('admin');
     Route::get('districts/{province_code}', [UserController::class, 'getDistricts'])->name('getDistricts')->middleware('admin');
     Route::get('wards/{district_code}', [UserController::class, 'getWards'])->name('getWards')->middleware('admin');
+});
+
+/*Role */
+Route::group(['prefix' => 'role'], function () {
+    Route::get('/index', [RoleController::class, 'index'])->name('role.index')
+        ->middleware('admin');
+    Route::get('/create', [RoleController::class, 'create'])->name('role.create')
+        ->middleware('admin');
+    Route::post('/store', [RoleController::class, 'store'])->name('role.store')
+        ->middleware('admin');
+    Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('role.edit')
+        ->middleware('admin');
+    Route::put('/update/{id}', [RoleController::class, 'update'])->name('role.update')
+        ->middleware('admin');
+    Route::delete('/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete')
+        ->middleware('admin');
 });
 Route::get('/login', [AuthController::class, 'index'])
     ->name('auth.login')
