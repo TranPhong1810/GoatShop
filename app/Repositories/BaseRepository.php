@@ -28,7 +28,6 @@ class BaseRepository implements Bases
         $model = $this->model->findOrFail($id);
         return $model->update($payload);
     }
-
     public function delete(int $id = 0)
     {
         $model = $this->model->findOrFail($id);

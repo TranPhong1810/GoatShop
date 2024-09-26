@@ -3704,6 +3704,7 @@ body.layout-3 .navbar {
     left: 0;
     right: 0;
 }
+
 .dropzone {
     border: 2px dashed #007bff;
     border-radius: 5px;
@@ -3712,12 +3713,16 @@ body.layout-3 .navbar {
     text-align: center;
     cursor: pointer;
 }
+
 .dropzone .fallback {
-    display: none; /* Hide the fallback input */
+    display: none;
+    /* Hide the fallback input */
 }
+
 .dropzone.dragover {
     background: #e2e6ea;
 }
+
 .user-detail-sidebar {
     display: none;
     position: fixed;
@@ -3726,13 +3731,15 @@ body.layout-3 .navbar {
     width: 300px;
     height: 100%;
     background-color: #fff;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
     padding: 20px;
     z-index: 1000;
 }
+
 .sidebar-content {
     overflow-y: auto;
 }
+
 body.layout-3 .navbar.navbar-secondary {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
     background-color: #fff;
@@ -4194,5 +4201,15 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
         opacity: 0.0;
     }
 }
+.custom-control {
+    margin-bottom: 0.5rem;
+}
 
+.custom-control-label {
+    cursor: pointer;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
 /*# sourceMappingURL=style.css.map */

@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\VerifyEmailController;
 use App\Http\Middleware\AuthenticateMiddleware;
 use App\Http\Middleware\LoginMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +51,22 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('districts/{province_code}', [UserController::class, 'getDistricts'])->name('getDistricts')->middleware('admin');
     Route::get('wards/{district_code}', [UserController::class, 'getWards'])->name('getWards')->middleware('admin');
 });
+
+/*Role */
+Route::group(['prefix' => 'role'], function () {
+    Route::get('/index', [RoleController::class, 'index'])->name('role.index')
+        ->middleware('admin');
+    Route::get('/create', [RoleController::class, 'create'])->name('role.create')
+        ->middleware('admin');
+    Route::post('/store', [RoleController::class, 'store'])->name('role.store')
+        ->middleware('admin');
+    Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('role.edit')
+        ->middleware('admin');
+    Route::put('/update/{id}', [RoleController::class, 'update'])->name('role.update')
+        ->middleware('admin');
+    Route::delete('/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete')
+        ->middleware('admin');
+});
 Route::get('/login', [AuthController::class, 'index'])
     ->name('auth.login')
     ->middleware('login');
@@ -57,5 +75,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/register', [AuthController::class, 'store'])->name('auth.register.post');
+Route::get('/verify-email/{token}', [VerifyEmailController::class, 'verify'])->name('auth.verify-email');
 Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);

@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Models\User;
+use App\Notifications\VerifyEmailNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\PendingUser;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -67,12 +70,18 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
-        toastr()->success('Đăng ký tài khoản thành công!');
+        $token = Str::random(60);
+        $pendingUser = new PendingUser();
+        $pendingUser->name = $request->input('name');
+        $pendingUser->email = $request->input('email');
+        $pendingUser->password = bcrypt($request->input('password'));
+        $pendingUser->token = $token;
+        $pendingUser->save();
+
+        // Gửi email xác nhận
+        $pendingUser->notify(new VerifyEmailNotification($token));
+
+        toastr()->success('Đăng ký tài khoản thành công! Vui lòng kiểm tra email của bạn để xác nhận đăng ký.');
         return redirect()->route('auth.login');
     }
 
@@ -80,34 +89,34 @@ class AuthController extends Controller
      * Display the specified resource.
      */
 
-     public function handleGoogleCallback()
-     {
-         try {
-             $googleUser = Socialite::driver('google')->user();
-             $this->loginOrRegisterUser($googleUser);
-             return redirect()->route('dashboard.index')->with('success', 'Đăng nhập bằng Google thành công!');
-         } catch (Exception $e) {
-             dd($e->getMessage());
-             return redirect()->route('auth.login')->with('error', 'Đăng nhập bằng Google thất bại');
-         }
-     }
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+            $this->loginOrRegisterUser($googleUser);
+            return redirect()->route('dashboard.index')->with('success', 'Đăng nhập bằng Google thành công!');
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return redirect()->route('auth.login')->with('error', 'Đăng nhập bằng Google thất bại');
+        }
+    }
 
-     private function loginOrRegisterUser($googleUser)
-     {
-         $user = User::where('email', $googleUser->email)->first();
+    private function loginOrRegisterUser($googleUser)
+    {
+        $user = User::where('email', $googleUser->email)->first();
 
-         if ($user) {
-             Auth::loginUsingId($user->id);
-         } else {
-             // Tạo mới tài khoản người dùng nếu chưa tồn tại
-             $newUser = new User();
-             $newUser->name = $googleUser->name;
-             $newUser->email = $googleUser->email;
-             // Không cần mật khẩu khi đăng nhập bằng Google
-             $newUser->save();
-             Auth::login($newUser);
-         }
-     }
+        if ($user) {
+            Auth::loginUsingId($user->id);
+        } else {
+            // Tạo mới tài khoản người dùng nếu chưa tồn tại
+            $newUser = new User();
+            $newUser->name = $googleUser->name;
+            $newUser->email = $googleUser->email;
+            // Không cần mật khẩu khi đăng nhập bằng Google
+            $newUser->save();
+            Auth::login($newUser);
+        }
+    }
 
 
     /**
