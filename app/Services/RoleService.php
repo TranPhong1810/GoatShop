@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Storage;
  */
 class RoleService implements RoleServiceInterface
 {
-    protected $userRepository;
+    protected $roleRepository;
 
-    public function __construct(RoleRepository $userRepository)
+    public function __construct(RoleRepository $roleRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->roleRepository = $roleRepository;
     }
 
 
@@ -33,7 +33,7 @@ class RoleService implements RoleServiceInterface
             $dataCreate['guard_name'] = 'web';
             $dataCreate['group'] = 'system';
             // dd($dataCreate);
-            $role = $this->userRepository->create($dataCreate);
+            $role = $this->roleRepository->create($dataCreate);
             $role->permissions()->attach($dataCreate['permission_ids']);
             DB::commit();
             return true;
@@ -68,7 +68,7 @@ class RoleService implements RoleServiceInterface
     {
         DB::beginTransaction();
         try {
-            $role = $this->userRepository->delete($id);
+            $role = $this->roleRepository->delete($id);
             DB::commit();
             return true;
         } catch (\Exception $e) {

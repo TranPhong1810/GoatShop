@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AuthController;
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
@@ -28,6 +29,18 @@ Route::get('/', function () {
 Route::get('/dashboard/index', [DashboardController::class, 'index'])
     ->name('dashboard.index')
     ->middleware('admin');
+Route::get('/login', [AuthController::class, 'index'])
+    ->name('auth.login')
+    ->middleware('login');
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/register', [AuthController::class, 'store'])->name('auth.register.post');
+Route::get('/verify-email/{token}', [VerifyEmailController::class, 'verify'])->name('auth.verify-email');
+Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 /* USER */
 Route::group(['prefix' => 'user'], function () {
     Route::get('/index', [UserController::class, 'index'])->name('user.index')
@@ -67,14 +80,15 @@ Route::group(['prefix' => 'role'], function () {
     Route::delete('/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete')
         ->middleware('admin');
 });
-Route::get('/login', [AuthController::class, 'index'])
-    ->name('auth.login')
-    ->middleware('login');
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('/register', [AuthController::class, 'store'])->name('auth.register.post');
-Route::get('/verify-email/{token}', [VerifyEmailController::class, 'verify'])->name('auth.verify-email');
-Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+/*Category*/
+Route::group(['prefix'=>'category','middleware'=>'admin'], function(){
+    Route::get('/index',[CategoryController::class,'index'])->name('category.index');
+    Route::get('/create',[CategoryController::class,'create'])->name('category.create');
+    Route::post('/store',[CategoryController::class,'store'])->name('category.store');
+    Route::get('/edit/{id}',[CategoryController::class,'edit'])->name('category.edit');
+    Route::put('/update/{id}',[CategoryController::class,'update'])->name('category.update');
+    Route::delete('/delete/{id}',[CategoryController::class,'destroy'])->name('category.delete');
+});
+
+
