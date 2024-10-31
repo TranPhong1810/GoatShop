@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
@@ -111,8 +113,23 @@ Route::group(['prefix' => 'variant', 'middleware' => 'admin'], function () {
     Route::get('/index', [VariantController::class, 'index'])->name('variant.index');
     Route::get('/create', [VariantController::class, 'create'])->name('variant.create');
     Route::post('/store', [VariantController::class, 'store'])->name('variant.store');
-    Route::get('/edit/{id}', [VariantController::class, 'edit'])->name('variant.edit');
-    Route::put('/update/{id}', [VariantController::class, 'update'])->name('variant.update');
     Route::delete('variant/color/{id}', [VariantController::class, 'deleteColor'])->name('variant.delete.color');
     Route::delete('variant/size/{id}', [VariantController::class, 'deleteSize'])->name('variant.delete.size');
+});
+
+/*Coupon */
+Route::group(['prefix' => 'coupon', 'middleware' => 'admin'], function () {
+    Route::get('/index', [CouponController::class, 'index'])->name('coupon.index');
+    Route::get('/create', [CouponController::class, 'create'])->name('coupon.create');
+    Route::post('/store', [CouponController::class, 'store'])->name('coupon.store');
+    Route::get('/edit/{id}', [CouponController::class, 'edit'])->name('coupon.edit');
+    Route::put('/update/{id}', [CouponController::class, 'update'])->name('coupon.update');
+    Route::delete('/delete/{id}', [CouponController::class, 'destroy'])->name('coupon.delete');
+});
+
+/*Coupon */
+Route::group(['prefix' => 'order', 'middleware' => 'admin'], function () {
+    Route::get('/index', [OrderController::class, 'index'])->name('order.index');
+    Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+    Route::delete('/delete/{id}', [OrderController::class, 'destroy'])->name('order.delete');
 });

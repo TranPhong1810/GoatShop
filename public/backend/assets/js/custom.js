@@ -26,3 +26,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+
+    startDateInput.addEventListener('change', function () {
+        const selectedDate = this.value; // Ngày đã chọn
+        endDateInput.setAttribute('min', selectedDate); // Đặt ngày tối thiểu cho End Date
+        endDateInput.value = ''; // Reset giá trị End Date nếu có
+    });
+});
