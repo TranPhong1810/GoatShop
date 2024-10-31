@@ -96,7 +96,7 @@ class AuthController extends Controller
             $this->loginOrRegisterUser($googleUser);
             return redirect()->route('dashboard.index')->with('success', 'Đăng nhập bằng Google thành công!');
         } catch (Exception $e) {
-            dd($e->getMessage());
+            // dd($e->getMessage());
             return redirect()->route('auth.login')->with('error', 'Đăng nhập bằng Google thất bại');
         }
     }
